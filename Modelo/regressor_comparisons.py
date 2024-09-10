@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import cross_val_score, train_test_split   #type: ignore
 from sklearn.metrics import  make_scorer, accuracy_score, recall_score, precision_score, f1_score    #type: ignore
-from sklearn.linear_model import LogisticRegressor   #type: ignore
+from sklearn.linear_model import LogisticRegression   #type: ignore
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor, ExtraTreesRegressor   #type: ignore
 from sklearn.svm import SVR #type: ignore
 from sklearn.neighbors import KNeighborsRegressor   #type: ignore
@@ -24,7 +24,7 @@ X = pd.read_csv("newDF.csv")
 # Definir los regresores
 regressors = {
     #'Random Forest': RandomForestRegressor(random_state=42),
-    'Logistic Regression': LogisticRegressor(random_state=42),
+    'Logistic Regression': LogisticRegression(random_state=42),
     'Gradient Boosting': GradientBoostingRegressor(random_state=42),
     'Support Vector Regressor': SVR(),
     'KNN Regressor': KNeighborsRegressor(),
