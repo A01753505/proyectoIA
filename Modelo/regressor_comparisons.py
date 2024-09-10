@@ -3,12 +3,11 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import cross_val_score, train_test_split   #type: ignore
 from sklearn.metrics import  make_scorer, accuracy_score, recall_score, precision_score, f1_score    #type: ignore
-from sklearn.linear_model import LogisticRegression   #type: ignore
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor, ExtraTreesRegressor   #type: ignore
-from sklearn.svm import SVR #type: ignore
-from sklearn.neighbors import KNeighborsRegressor   #type: ignore
-from sklearn.tree import DecisionTreeRegressor  #type: ignore
-from xgboost import XGBRegressor    #type: ignore
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, AdaBoostClassifier, ExtraTreesClassifier   #type: ignore
+from sklearn.svm import SVC #type: ignore
+from sklearn.neighbors import KNeighborsClassifier   #type: ignore
+from sklearn.tree import DecisionTreeClassifier  #type: ignore
+from xgboost import XGBClassifier    #type: ignore
 import matplotlib.pyplot as plt #type: ignore
 import scikit_posthocs as sp    #type: ignore
 import baycomp  #type: ignore
@@ -17,21 +16,26 @@ from tqdm import tqdm   #type: ignore
 
 # 2. Cargar el dataset y preparar datos -------------------------------------------------------------------------------------------------------------
 df = pd.read_csv("Modelo/train.csv")
-y = df["Transported"]
 X = pd.read_csv("newDF.csv")
+# Separar train y test
+x_train, x_test, y_train, y_test = train_test_split(
+    df.drop(columns = ["Name", "Transported"]),
+    df["Transported"],
+    test_size = 0.2,                    # El test será el 20% del dataset de entrenamiento
+    random_state = 42
+)
 
 # 3. Definición, entrenamiento y evaluación de regresores --------------------------------------------------------------------------------------------
 # Definir los regresores
 regressors = {
-    #'Random Forest': RandomForestRegressor(random_state=42),
-    'Logistic Regression': LogisticRegression(random_state=42),
-    'Gradient Boosting': GradientBoostingRegressor(random_state=42),
-    'Support Vector Regressor': SVR(),
-    'KNN Regressor': KNeighborsRegressor(),
-    'Decision Tree': DecisionTreeRegressor(random_state=42),
-    'AdaBoost': AdaBoostRegressor(random_state=42),
-    'XGBoost': XGBRegressor(random_state=42),
-    'Extra Trees': ExtraTreesRegressor(random_state=42)
+    'Random Forest': RandomForestClassifier(random_state=42),
+    'Gradient Boosting': GradientBoostingClassifier(random_state=42),
+    'Support Vector Classifier': SVC(),
+    'KNN Classifier': KNeighborsClassifier(),
+    'Decision Tree': DecisionTreeClassifier(random_state=42),
+    'AdaBoost': AdaBoostClassifier(random_state=42),
+    'XGBoost': XGBClassifier(random_state=42),
+    'Extra Trees': ExtraTreesClassifier(random_state=42)
 }
 
 # Definir las métricas para la validación cruzada
@@ -47,7 +51,7 @@ results:dict = {}
 for name, model in tqdm(regressors.items(), desc="Evaluando Modelos"):
     results[name] = {}
     for metric_name, metric in tqdm(scoring.items(), desc=f"Evaluando métricas para {name}", leave=False):
-        scores = cross_val_score(model, X, y, cv=5, scoring=metric)
+        scores = cross_val_score(model, X, y_train, cv=5, scoring=metric)
         results[name][metric_name] = scores  # Guardar los 5 resultados individuales
 
 # Convertir los resultados a un DataFrame para cada métrica
