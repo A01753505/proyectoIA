@@ -1,27 +1,26 @@
 import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split, cross_val_score, cross_validate   #type: ignore
+from sklearn.model_selection import train_test_split, cross_validate   #type: ignore
 from catboost import CatBoostClassifier  #type: ignore
 from sklearn.model_selection import GridSearchCV
 
 # Cargar el dataset y preparar datos
 df = pd.read_csv("Modelo/train.csv")
-X = pd.read_csv("newDF.csv")
+X = pd.read_csv("DF.csv")
 # Separar train y test
 X_train, X_test, y_train, y_test = train_test_split(
-    df.drop(columns = ["Name", "Transported"]),
+    X,
     df["Transported"],
-    test_size = 0.2,                    # El test será el 20% del dataset de entrenamiento
+    test_size = 0.2,        # El test será el 20% del dataset de entrenamiento
     random_state = 42
 )
 
 # Definir y entrenar el modelo
 cat = CatBoostClassifier(verbose=0)
-cat.fit(X, y_train)
+cat.fit(X_train, y_train)
 
 # Evaluar el modelo
 scoring = ['accuracy', 'precision', 'recall', 'f1']
-results = cross_validate(cat, X, y_train, cv=5, scoring=scoring, return_train_score=False)
+results = cross_validate(cat, X_train, y_train, cv=5, scoring=scoring, return_train_score=False)
 
 print(f"Accuracy: {results['test_accuracy'].mean()} ± {results['test_accuracy'].std()}")
 print(f"Precision: {results['test_precision'].mean()} ± {results['test_precision'].std()}")
@@ -29,10 +28,10 @@ print(f"Recall: {results['test_recall'].mean()} ± {results['test_recall'].std()
 print(f"F1 Score: {results['test_f1'].mean()} ± {results['test_f1'].std()}")
 
 # Búsqueda de hiperparámetros
-# param_grid = [{'iterations': [1000, 1500],
+# param_grid = [{'iterations': [1000, 1250, 1500],
 #                'learning_rate': [0.01, 0.03],
 #                'max_depth': [4, 6, 8],
-#                'l2_leaf_reg': [3, 5]}]
+#                'l2_leaf_reg': [3, 5, 9]}]
 
 # cat2 = CatBoostClassifier(verbose=0)
 # grid_search = GridSearchCV(cat2, param_grid, cv=5, scoring='accuracy')
@@ -44,12 +43,12 @@ print(f"F1 Score: {results['test_f1'].mean()} ± {results['test_f1'].std()}")
 # print("Grid mejor estimador: ",grid_search.best_estimator_)
 
 # Modelo mejorado con los hiperparámetros encontrados
-cat_new = CatBoostClassifier(iterations= 1500, l2_leaf_reg= 3, learning_rate= 0.01, max_depth= 4, verbose= 0)
-cat_new.fit(X, y_train)
+cat_new = CatBoostClassifier(iterations=1250, learning_rate=0.03, depth=6, l2_leaf_reg=9, verbose=0)
+cat_new.fit(X_train, y_train)
 
 # Evaluar el modelo
 scoring = ['accuracy', 'precision', 'recall', 'f1']
-results = cross_validate(cat, X, y_train, cv=5, scoring=scoring, return_train_score=False)
+results = cross_validate(cat, X_train, y_train, cv=5, scoring=scoring, return_train_score=False)
 
 print(f"Accuracy: {results['test_accuracy'].mean()} ± {results['test_accuracy'].std()}")
 print(f"Precision: {results['test_precision'].mean()} ± {results['test_precision'].std()}")

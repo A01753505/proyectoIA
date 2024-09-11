@@ -5,6 +5,7 @@ from collections import Counter
 from sklearn.preprocessing import MinMaxScaler  #type: ignore
 from sklearn.impute import KNNImputer #type: ignore
 from sklearn.preprocessing import LabelEncoder
+from sklearn.utils import shuffle #type: ignore
 
 # Separar datos numéricos y categóricos
 def num_cat_separation(X):
@@ -112,23 +113,17 @@ def combine_num_cat(df_cat, df_num):
     return df_combined
 
 
-#----------------------------------------------------------------------DATAFRAME DE PRUEBA----------------------------------------------------------------------
+#----------------------------------------------------------------------DATAFRAME RESULTANTE----------------------------------------------------------------------
 
 # Leer datos
-df = pd.read_csv("Modelo/train.csv")
+# df = pd.read_csv("Modelo/train.csv")
+df = pd.read_csv("Modelo/test.csv")
 
-# Separar train y test
-# x_train, x_test, y_train, y_test = train_test_split(
-#     df.drop(columns = ["Name", "Transported"]),
-#     df["Transported"],
-#     test_size = 0.2,                    # El test será el 20% del dataset de entrenamiento
-#     random_state = 42
-# )
-
-x_train = df.drop(columns = ["Name", "Transported"])
+# X = df.drop(columns = ["Name", "Transported"])
+X = df.drop(columns = ["Name"])
 
 # Separar datos numéricos y categóricos
-df_cat, df_num = num_cat_separation(x_train)
+df_cat, df_num = num_cat_separation(X)
 
 # Codifica los datos categóricos
 df_cat = encode_dataframe(df_cat)
@@ -152,4 +147,4 @@ df_new = combine_num_cat(df_cat, df_num_scaled)
 # print(df_new.isnull().sum())
 
 # Guardar el nuevo DataFrame
-df_new.to_csv('DFscaled.csv', index=False)
+df_new.to_csv('DF_test.csv', index=False)
