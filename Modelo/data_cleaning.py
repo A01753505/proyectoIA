@@ -143,4 +143,6 @@ imputation(df_cat, class_counts_cat, missing_values_cat)
 
 # Combina los DataFrames de datos numéricos y categóricos
 df_new = combine_num_cat(df_cat, df_num)
+
+# Guardar el nuevo DataFrame
 # df_new.to_csv('newDF.csv', index=False)

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split, cross_val_score   #type: ignore
-from sklearn.ensemble import GradientBoostingClassifier  #type: ignore
+from sklearn.model_selection import train_test_split, cross_val_score, cross_validate   #type: ignore
+from catboost import CatBoostClassifier  #type: ignore
 from sklearn.model_selection import GridSearchCV
 
 # Cargar el dataset y preparar datos
@@ -16,38 +16,42 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # Definir y entrenar el modelo
-# boost_reg = GradientBoostingClassifier()
-# boost_reg.fit(X, y_train)
+cat = CatBoostClassifier(verbose=0)
+cat.fit(X, y_train)
 
-# boost_scores = cross_val_score(boost_reg, X, y_train, scoring="accuracy", cv=10)
-# boost_rmse_scores = np.sqrt(-boost_scores)
+# Evaluar el modelo
+scoring = ['accuracy', 'precision', 'recall', 'f1']
+results = cross_validate(cat, X, y_train, cv=5, scoring=scoring, return_train_score=False)
 
-# def display_scores(scores):
-#     print("Scores:", scores)
-#     print("Mean:", scores.mean())
-#     print("Standard deviation:", scores.std())
-
-# display_scores(boost_rmse_scores)
-
+print(f"Accuracy: {results['test_accuracy'].mean()} ± {results['test_accuracy'].std()}")
+print(f"Precision: {results['test_precision'].mean()} ± {results['test_precision'].std()}")
+print(f"Recall: {results['test_recall'].mean()} ± {results['test_recall'].std()}")
+print(f"F1 Score: {results['test_f1'].mean()} ± {results['test_f1'].std()}")
 
 # Búsqueda de hiperparámetros
-param_grid = [{'n_estimators': [100, 115, 125],
-               'learning_rate': [0.1, 0.01],
-               'max_depth': [2, 3, 4, 5]}]
+# param_grid = [{'iterations': [1000, 1500],
+#                'learning_rate': [0.01, 0.03],
+#                'max_depth': [4, 6, 8],
+#                'l2_leaf_reg': [3, 5]}]
 
-boost_reg2 = GradientBoostingClassifier()
-grid_search = GridSearchCV(boost_reg2, param_grid, cv=5, scoring='accuracy')
+# cat2 = CatBoostClassifier(verbose=0)
+# grid_search = GridSearchCV(cat2, param_grid, cv=5, scoring='accuracy')
 
-grid_search.fit(X, y_train)
+# grid_search.fit(X, y_train)
 
-print()
-print("Grid mejores parámetros: ",grid_search.best_params_)
-print("Grid mejor estimador: ",grid_search.best_estimator_)
-
-# boost_reg_new = GradientBoostingClassifier(max_depth=4, n_estimators=125)
-# boost_reg_new.fit(X, y_train)
-
-# scores = cross_val_score(boost_reg_new, X, y_train, scoring="accuracy", cv=10)
-# rmse_scores = np.sqrt(-scores)
 # print()
-# display_scores(rmse_scores)
+# print("Grid mejores parámetros: ",grid_search.best_params_)
+# print("Grid mejor estimador: ",grid_search.best_estimator_)
+
+# Modelo mejorado con los hiperparámetros encontrados
+cat_new = CatBoostClassifier(max_depth=4, n_estimators=125)
+cat_new.fit(X, y_train)
+
+# Evaluar el modelo
+scoring = ['accuracy', 'precision', 'recall', 'f1']
+results = cross_validate(cat, X, y_train, cv=5, scoring=scoring, return_train_score=False)
+
+print(f"Accuracy: {results['test_accuracy'].mean()} ± {results['test_accuracy'].std()}")
+print(f"Precision: {results['test_precision'].mean()} ± {results['test_precision'].std()}")
+print(f"Recall: {results['test_recall'].mean()} ± {results['test_recall'].std()}")
+print(f"F1 Score: {results['test_f1'].mean()} ± {results['test_f1'].std()}")

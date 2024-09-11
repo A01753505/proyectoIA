@@ -1,5 +1,4 @@
 # 1. Importar bibliotecas -------------------------------------------------------------------------------------------------------------
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import cross_val_score, train_test_split   #type: ignore
 from sklearn.metrics import  make_scorer, accuracy_score, recall_score, precision_score, f1_score    #type: ignore
@@ -10,6 +9,7 @@ from sklearn.tree import DecisionTreeClassifier  #type: ignore
 from xgboost import XGBClassifier    #type: ignore
 import matplotlib.pyplot as plt #type: ignore
 import scikit_posthocs as sp    #type: ignore
+from catboost import CatBoostClassifier  #type: ignore
 import baycomp  #type: ignore
 from tqdm import tqdm   #type: ignore
 
@@ -25,10 +25,11 @@ x_train, x_test, y_train, y_test = train_test_split(
     random_state = 42
 )
 
-# 3. Definición, entrenamiento y evaluación de regresores --------------------------------------------------------------------------------------------
-# Definir los regresores
-regressors = {
+# 3. Definición, entrenamiento y evaluación de clasificadores --------------------------------------------------------------------------------------------
+# Definir los clasificadores
+classifiers = {
     'Random Forest': RandomForestClassifier(random_state=42),
+    'CatBoost': CatBoostClassifier(random_state=42, verbose=0),
     'Gradient Boosting': GradientBoostingClassifier(random_state=42),
     'Support Vector Classifier': SVC(),
     'KNN Classifier': KNeighborsClassifier(),
@@ -46,19 +47,19 @@ scoring = {
     'F1': make_scorer(f1_score, average='macro')
 }
 
-# Evaluar los regresores utilizando 5-fold cross-validation y guardar los resultados por métrica
+# Evaluar los clasificadores utilizando 5-fold cross-validation y guardar los resultados por métrica
 results:dict = {}
-for name, model in tqdm(regressors.items(), desc="Evaluando Modelos"):
+for name, model in tqdm(classifiers.items(), desc="Evaluando Modelos"):
     results[name] = {}
     for metric_name, metric in tqdm(scoring.items(), desc=f"Evaluando métricas para {name}", leave=False):
         scores = cross_val_score(model, X, y_train, cv=5, scoring=metric)
         results[name][metric_name] = scores  # Guardar los 5 resultados individuales
 
 # Convertir los resultados a un DataFrame para cada métrica
-acc_df = pd.DataFrame({model: results[model]['Accuracy'] for model in regressors.keys()}).abs()  # Convertir a valores positivos
-rec_df = pd.DataFrame({model: results[model]['Recall'] for model in regressors.keys()}).abs()  # Convertir a valores positivos
-pres_df = pd.DataFrame({model: results[model]['Precision'] for model in regressors.keys()})  # Mantener R² sin cambios
-f1_df = pd.DataFrame({model: results[model]['F1'] for model in regressors.keys()}).abs()  # Convertir a valores positivos
+acc_df = pd.DataFrame({model: results[model]['Accuracy'] for model in classifiers.keys()}).abs()  # Convertir a valores positivos
+rec_df = pd.DataFrame({model: results[model]['Recall'] for model in classifiers.keys()}).abs()  # Convertir a valores positivos
+pres_df = pd.DataFrame({model: results[model]['Precision'] for model in classifiers.keys()})  # Mantener R² sin cambios
+f1_df = pd.DataFrame({model: results[model]['F1'] for model in classifiers.keys()}).abs()  # Convertir a valores positivos
 
 # Imprimir cada DataFrame por métrica
 
@@ -131,3 +132,37 @@ calcular_diferencias_criticas(acc_df, 'Accuracy')
 calcular_diferencias_criticas(rec_df, 'Recall')
 calcular_diferencias_criticas(pres_df, 'Precision')
 calcular_diferencias_criticas(f1_df, 'F1 score')
+
+# 6. Comparación bayesiana de todos los clasificadores -------------------------------------------------------------------------------------------------------------
+# Función para realizar comparaciones bayesianas entre todos los pares de modelos y generar gráficos
+def comparaciones_bayesianas(df, nombre_metrica):
+    rope = 0.0  # Región de Equivalencia Práctica (ROPE)
+    bayes_comparison_results = {}
+
+    # Comparar todos los pares únicos de modelos
+    for i, modelo_1 in enumerate(df.columns):
+        for j, modelo_2 in enumerate(df.columns):
+            if i < j:  # Evitar comparaciones duplicadas y autocomparaciones
+                # Realizar la comparación bayesiana entre los dos modelos seleccionados usando two_on_single
+                probs, fig = baycomp.two_on_single(
+                    df[modelo_1].values,  # Resultados del primer modelo
+                    df[modelo_2].values,  # Resultados del segundo modelo
+                    rope=rope,
+                    plot=True,  # Generar el gráfico
+                    names=(modelo_1, modelo_2)  # Nombres para los modelos
+                )
+                bayes_comparison_results[(modelo_1, modelo_2)] = probs
+                # Imprimir los resultados
+                print(f"Comparación bayesiana entre {modelo_1} y {modelo_2} en {nombre_metrica}: {probs}")
+
+                # Guardar el gráfico
+                fig.savefig(f"Comparacion_Bayesiana_{modelo_1}_vs_{modelo_2}_{nombre_metrica}.png")
+                plt.show()
+
+    return bayes_comparison_results
+
+# Realizar comparaciones bayesianas para cada métrica y generar los gráficos
+resultados_bayesianos_acc = comparaciones_bayesianas(acc_df, 'Accuracy')
+resultados_bayesianos_rec = comparaciones_bayesianas(rec_df, 'Recall')
+resultados_bayesianos_pres = comparaciones_bayesianas(pres_df, 'Precision')
+resultados_bayesianos_f1 = comparaciones_bayesianas(f1_df, 'F1 score')

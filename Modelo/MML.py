@@ -1,26 +1,27 @@
+from catboost import CatBoostClassifier  #type: ignore
+import joblib   #type: ignore
+import pandas as pd
+
 # ------------------------------------------------- DATAFRAME DE TRAIN -------------------------------------------------
 
-# # Leer datos
-# df = pd.read_csv("train.csv")
+# Leer datos
+df = pd.read_csv("Modelo/train.csv")
+X = pd.read_csv("newDF.csv")
+y = df["Transported"]
 
-# X = df.drop(columns = ["Id", "SalePrice"])
-# y = df["SalePrice"]
+cat = CatBoostClassifier(iterations= 1500, l2_leaf_reg= 3, learning_rate= 0.01, max_depth= 4, verbose= 0)
+cat.fit(X, y)
 
-# # Separar datos numéricos y categóricos
-# df_cat, df_num = num_cat_separation(X)
+# Exportar modelo
+# joblib.dump(cat,'pruebaModelo.joblib')
 
-# df_num = outliers(df_num, factor=1.5)
-# df_num = normalize_data(df_num)
+# Predicciones
+# predictions = cat.predict(df)
 
-# class_counts_num, missing_values_num = storeMS(df_num)
-# class_counts_cat, missing_values_cat = storeMS(df_cat)
-
-# imputation(df_num, class_counts_num, missing_values_num)
-# imputation(df_cat, class_counts_cat, missing_values_cat)
-
-# df_cat = encode_dataframe(df_cat)
-
-# df_new = combine_num_cat(df_cat, df_num)
+# Calculo del error
+# error_scores = cross_val_score(cat, df, predictions, scoring="neg_mean_squared_error", cv=10)
+# rmse_scores = np.sqrt(-scores)
+# print(rmse_scores)
 
 
 # ------------------------------------------------- DATAFRAME DE TEST -------------------------------------------------
