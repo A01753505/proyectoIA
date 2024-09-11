@@ -1,12 +1,10 @@
 # Imports
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split  #type: ignore
 from collections import Counter
 from sklearn.preprocessing import MinMaxScaler  #type: ignore
 from sklearn.impute import KNNImputer #type: ignore
 from sklearn.preprocessing import LabelEncoder
-import matplotlib.pyplot as plt
 
 # Separar datos numéricos y categóricos
 def num_cat_separation(X):
@@ -120,12 +118,14 @@ def combine_num_cat(df_cat, df_num):
 df = pd.read_csv("Modelo/train.csv")
 
 # Separar train y test
-x_train, x_test, y_train, y_test = train_test_split(
-    df.drop(columns = ["Name", "Transported"]),
-    df["Transported"],
-    test_size = 0.2,                    # El test será el 20% del dataset de entrenamiento
-    random_state = 42
-)
+# x_train, x_test, y_train, y_test = train_test_split(
+#     df.drop(columns = ["Name", "Transported"]),
+#     df["Transported"],
+#     test_size = 0.2,                    # El test será el 20% del dataset de entrenamiento
+#     random_state = 42
+# )
+
+x_train = df.drop(columns = ["Name", "Transported"])
 
 # Separar datos numéricos y categóricos
 df_cat, df_num = num_cat_separation(x_train)
@@ -133,16 +133,23 @@ df_cat, df_num = num_cat_separation(x_train)
 # Codifica los datos categóricos
 df_cat = encode_dataframe(df_cat)
 
+# Escalar los datos numéricos
+scaler = MinMaxScaler()
+df_num_scaled = pd.DataFrame(scaler.fit_transform(df_num), columns=df_num.columns)
+
 # Crear los diccionarios de conteo de clases y valores faltantes
-class_counts_num, missing_values_num = storeMS(df_num)
+class_counts_num, missing_values_num = storeMS(df_num_scaled)
 class_counts_cat, missing_values_cat = storeMS(df_cat)
 
 # Imputación de datos
-imputation(df_num, class_counts_num, missing_values_num)
+imputation(df_num_scaled, class_counts_num, missing_values_num)
 imputation(df_cat, class_counts_cat, missing_values_cat)
 
 # Combina los DataFrames de datos numéricos y categóricos
-df_new = combine_num_cat(df_cat, df_num)
+df_new = combine_num_cat(df_cat, df_num_scaled)
+
+# print(df_new)
+# print(df_new.isnull().sum())
 
 # Guardar el nuevo DataFrame
-# df_new.to_csv('newDF.csv', index=False)
+df_new.to_csv('DFscaled.csv', index=False)

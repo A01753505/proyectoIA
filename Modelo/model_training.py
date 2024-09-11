@@ -44,7 +44,7 @@ print(f"F1 Score: {results['test_f1'].mean()} ± {results['test_f1'].std()}")
 # print("Grid mejor estimador: ",grid_search.best_estimator_)
 
 # Modelo mejorado con los hiperparámetros encontrados
-cat_new = CatBoostClassifier(max_depth=4, n_estimators=125)
+cat_new = CatBoostClassifier(iterations= 1500, l2_leaf_reg= 3, learning_rate= 0.01, max_depth= 4, verbose= 0)
 cat_new.fit(X, y_train)
 
 # Evaluar el modelo
