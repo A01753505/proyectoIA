@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tinder Cards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card-container soulmate">
+        <div class="card active">
+            <img src="https://via.placeholder.com/300x400" alt="Person Photo" class="card-image">
+            <div class="card-description">
+                <h2>John Doe, 25</h2>
+                <p>Amante de los viajes, la tecnología y el café.</p>
+            </div>
+            <div class="card-feedback left-feedback">💔</div>
+            <div class="card-feedback right-feedback">❤️</div>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x400" alt="Person Photo" class="card-image">
+            <div class="card-description">
+                <h2>Jane Doe, 28</h2>
+                <p>Fanática de la música y los deportes al aire libre.</p>
+            </div>
+            <div class="card-feedback left-feedback">💔</div>
+            <div class="card-feedback right-feedback">❤️</div>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x400" alt="Person Photo" class="card-image">
+            <div class="card-description">
+                <h2>Sam Smith, 30</h2>
+                <p>Amante de los animales y el senderismo.</p>
+            </div>
+            <div class="card-feedback left-feedback">💔</div>
+            <div class="card-feedback right-feedback">❤️</div>
+        </div>
+    </div>
+
+    <button id="left-btn" style="display: block;" class="btn left"><</button>
+    <button id="right-btn" style="display: block;" class="btn right">></button>
+
+    <div class="container-form_pred form hide">
+        <div class="form_pred">
+           <div class="information_pred">
+                <h2>¡Has encontrando a tu SPACESOULMATE!</h2>
+                <p>Contesta el siguiente formulario para conocer su compatibilidad interdimensional</p>
+           </div>
+           <form class="form information_form">
+                <div>
+                    <label>
+                        <i class='bx bx-user' ></i>
+                        <input type="text" placeholder="Ingrese su nombre completo" name="userName" >
+                    </label>
+                    <label>
+                        <i class='bx bx-calendar' ></i>
+                        <input type="date" placeholder="Ingrese Fecha de Nacimiento" name="userbirthday" >
+                    </label>
+                    <label>
+                        <i class='bx bx-question-mark'></i>
+                        <div class="radio-options">
+                            <p>¿Viajaras acompañado?</p>
+                            <input type="radio" id="yesOption" name="yesNoOption" value="yes">
+                            <label for="yesOption">Sí</label>
+                            <input type="radio" id="noOption" name="yesNoOption" value="no">
+                            <label for="noOption">No</label>
+                        </div>
+                    </label>
+                    <label>
+                        <i class='bx bxs-plane-take-off'></i>
+                        <i class='bx bxs-planet' ></i>
+                        <select name="userOrigin" >
+                            <option value="" disabled selected>Ingresa tu planeta de Origen</option>
+                            <option value="Europa">Europa</option>
+                            <option value="Tierra">Tierra</option>
+                            <option value="Marte">Marte</option>
+                        </select>
+                    </label>
+                    <label>
+                        <i class='bx bxs-plane-land' ></i>
+                        <i class='bx bxs-planet' ></i>
+                        <select name="userDestiny" >
+                            <option value="" disabled selected>Ingresa tu planeta de Destino</option>
+                            <option value="Europa">Europa</option>
+                            <option value="Tierra">Tierra</option>
+                            <option value="Marte">Marte</option>
+                        </select>
+                    </label>
+                </div>
+           </form>
+           <div class="cabin">
+                <div>
+                    <div class="cabin-instructions">
+                        <p>Ingresa el asiento de cabina deseado</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="cabin-information">
+                        <div class="cabin-border">
+                            <div class="fila_arriba">
+                                <div class="section section_TS">
+                                    <button class="seat" data-seat="A1">TS1</button>
+                                    <button class="seat" data-seat="A2">TS2</button>
+                                </div>
+                                <div class="section section_GS">
+                                    <button class="seat" data-seat="B1">GS1</button>
+                                    <button class="seat" data-seat="B2">GS2</button>
+                                    <button class="seat" data-seat="C1">GS3</button>
+                                    <button class="seat" data-seat="C2">GS4</button>
+                                </div>
+                                <div class="section section_FS">
+                                    <button class="seat" data-seat="D1">FS1</button>
+                                    <button class="seat" data-seat="D2">FS2</button>
+                                    <button class="seat" data-seat="E1">FS3</button>
+                                    <button class="seat" data-seat="E2">FS4</button>
+                                </div>
+                                <div class="section section_ES">
+                                    <button class="seat" data-seat="F1">ES1</button>
+                                    <button class="seat" data-seat="F2">ES2</button>
+                                    <button class="seat" data-seat="G1">ES3</button>
+                                    <button class="seat" data-seat="G2">ES4</button>
+                                </div>
+                                <div class="section section_DS">
+                                    <button class="seat" data-seat="H1">DS1</button>
+                                    <button class="seat" data-seat="H2">DS2</button>
+                                    <button class="seat" data-seat="I1">DS3</button>
+                                    <button class="seat" data-seat="I2">DS4</button>
+                                </div>
+                                <div class="section section_CS">
+                                    <button class="seat" data-seat="J1">CS1</button>
+                                    <button class="seat" data-seat="J2">CS2</button>
+                                    <button class="seat" data-seat="K1">CS3</button>
+                                    <button class="seat" data-seat="K2">CS4</button>
+                                </div>
+                                <div class="section section_BS">
+                                    <button class="seat" data-seat="L1">BS1</button>
+                                    <button class="seat" data-seat="L2">BS2</button>
+                                    <button class="seat" data-seat="M1">BS3</button>
+                                    <button class="seat" data-seat="M2">BS4</button>
+                                </div>
+                                <div class="section section_AS">
+                                    <button class="seat" data-seat="N1">AS1</button>
+                                    <button class="seat" data-seat="N2">AS2</button>
+                                    <button class="seat" data-seat="O1">AS3</button>
+                                    <button class="seat" data-seat="O2">AS4</button>
+                                </div>
+                            </div>
+                            <div class="fila_abajo">
+                                <div class="section section_TP">
+                                    <button class="seat" data-seat="A12">TP1</button>
+                                    <button class="seat" data-seat="A22">TP2</button>
+                                </div>
+                                <div class="section section_GP">
+                                    <button class="seat" data-seat="B12">GP1</button>
+                                    <button class="seat" data-seat="B22">GP2</button>
+                                    <button class="seat" data-seat="C12">GP3</button>
+                                    <button class="seat" data-seat="C22">GP4</button>
+                                </div>
+                                <div class="section section_FP">
+                                    <button class="seat" data-seat="D12">FP1</button>
+                                    <button class="seat" data-seat="D22">FP2</button>
+                                    <button class="seat" data-seat="E12">FP3</button>
+                                    <button class="seat" data-seat="E22">FP4</button>
+                                </div>
+                                <div class="section section_EP">
+                                    <button class="seat" data-seat="F12">EP1</button>
+                                    <button class="seat" data-seat="F22">EP2</button>
+                                    <button class="seat" data-seat="G12">EP3</button>
+                                    <button class="seat" data-seat="G22">EP4</button>
+                                </div>
+                                <div class="section section_DP">
+                                    <button class="seat" data-seat="H12">DP1</button>
+                                    <button class="seat" data-seat="H22">DP2</button>
+                                    <button class="seat" data-seat="I12">DP3</button>
+                                    <button class="seat" data-seat="I22">DP4</button>
+                                </div>
+                                <div class="section section_CP">
+                                    <button class="seat" data-seat="J12">CP1</button>
+                                    <button class="seat" data-seat="J22">CP2</button>
+                                    <button class="seat" data-seat="K12">CP3</button>
+                                    <button class="seat" data-seat="K22">CP4</button>
+                                </div>
+                                <div class="section section_BP">
+                                    <button class="seat" data-seat="L12">BP1</button>
+                                    <button class="seat" data-seat="L22">BP2</button>
+                                    <button class="seat" data-seat="M12">BP3</button>
+                                    <button class="seat" data-seat="M22">BP4</button>
+                                </div>
+                                <div class="section section_AP">
+                                    <button class="seat" data-seat="N12">AP1</button>
+                                    <button class="seat" data-seat="N22">AP2</button>
+                                    <button class="seat" data-seat="O12">AP3</button>
+                                    <button class="seat" data-seat="O22">AP4</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           </div>
+           <button class="btn_form" id="cancelar">Cancelar</button>
+           <button class="btn_form" id="subir">Probar compatibilidad</button>
+        </div>
+    </div>
+
+    <div class="pred-container pred hide">
+        <div class="prediccion">
+            <h2 id="abordoB" style="display: none;">¡Todo Listo!, Bienvenido a bordo</h2>
+            <h2 id="abordoM" style="display: none;">¡Lo lamentamos!, para la otra será</h2>
+            <h1 id="emojiB" style="display: none;">🥵</h1>
+            <h1 id="emojiM" style="display: none;">😵🔫</h1>
+            <p id="mensajeB" style="display: none;">Ambas almas son compatibles y están listas para iniciar su viaje.</p>
+            <p id="mensajeM" style="display: none;">Alguna de las dos almas no cuenta con los criterios necesarios para viajar.</p>
+            <button id="btnBuscarAlmas" class="btnPred" style="display: none;">Buscar más almas</button>
+            <button id="btnViaje" class="btnPred" style="display: none;">Comenzar viaje</button>
+        </div>
+    </div>
+
+    <script src="cards.js"></script>
+</body>
+</html>
