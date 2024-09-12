@@ -1,0 +1,32 @@
+[{
+    "Función": "JSON que se envía al modelo",
+
+    "CryoSleep": false,
+    "VIP": false,
+    "Has_family": false,
+    "HomePlanet_Earth": false,
+    "HomePlanet_Europa": true,
+    "HomePlanet_Mars": false,
+    "Deck": 1,
+    "Side_P": true,
+    "Side_S": false,
+    "Destination_55 Cancri e": false,
+    "Destination_PS0 J318.5-22": false,
+    "Destination_TRAPPIST-1e": true,
+    "Age": 39,
+    "RoomService": 0,
+    "FoodCourt": 0,
+    "ShoppingMall": 0,
+    "Spa": 0,
+    "VRDeck": 0
+},
+{
+    "Función": "JSON que se envía con los datos del cliente",
+
+    "has_family": false,
+    "home_planet": "Europa",
+    "cabin": "B/25/S",
+    "destination": "TRAPPIST-1e",
+    "birth_date": "2002-02-02",
+    "name": "Julián Cisneros"
+}]
