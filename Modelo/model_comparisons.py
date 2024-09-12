@@ -1,4 +1,6 @@
-# 1. Importar bibliotecas -------------------------------------------------------------------------------------------------------------
+# ANALISIS DE COMPARACION DE MODELOS DE CLASIFICACION
+
+# 1. Importar bibliotecas ----------------------------------------------------------------------------------------------------------------------------
 import pandas as pd
 from sklearn.model_selection import cross_val_score, train_test_split   #type: ignore
 from sklearn.metrics import  make_scorer, accuracy_score, recall_score, precision_score, f1_score    #type: ignore
@@ -13,19 +15,18 @@ from catboost import CatBoostClassifier  #type: ignore
 import baycomp  #type: ignore
 from tqdm import tqdm   #type: ignore
 
-
 # 2. Cargar el dataset y preparar datos -------------------------------------------------------------------------------------------------------------
 df = pd.read_csv("Modelo/train.csv")
 X = pd.read_csv("newDF.csv")
-# Separar train y test
+# Separar en conjuntos de train y validation
 x_train, x_test, y_train, y_test = train_test_split(
-    df.drop(columns = ["Name", "Transported"]),
+    df.drop(columns = ["Name", "Transported"]),         # Eliminamos columnas de "target" y Nombre (no significativa)
     df["Transported"],
-    test_size = 0.2,                    # El test será el 20% del dataset de entrenamiento
+    test_size = 0.2,                                    # El conjunto de validación será el 20% del dataset de entrenamiento
     random_state = 42
 )
 
-# 3. Definición, entrenamiento y evaluación de clasificadores --------------------------------------------------------------------------------------------
+# 3. Definición, entrenamiento y evaluación de clasificadores ----------------------------------------------------------------------------------------
 # Definir los clasificadores
 classifiers = {
     'Random Forest': RandomForestClassifier(random_state=42),
@@ -40,6 +41,7 @@ classifiers = {
 }
 
 # Definir las métricas para la validación cruzada
+# Le damos prioridad al accuracy, para saber el porcantaje de predcciones correctas, pero también evaluamos otras métricas importantes
 scoring = {
     'Accuracy': make_scorer(accuracy_score),
     'Recall':  make_scorer(recall_score, average='macro'),
@@ -47,22 +49,21 @@ scoring = {
     'F1': make_scorer(f1_score, average='macro')
 }
 
-# Evaluar los clasificadores utilizando 5-fold cross-validation y guardar los resultados por métrica
+# Evaluar los clasificadores utilizando 5-fold cross-validation y guardar los resultados por cada métrica
 results:dict = {}
 for name, model in tqdm(classifiers.items(), desc="Evaluando Modelos"):
     results[name] = {}
     for metric_name, metric in tqdm(scoring.items(), desc=f"Evaluando métricas para {name}", leave=False):
         scores = cross_val_score(model, X, y_train, cv=5, scoring=metric)
-        results[name][metric_name] = scores  # Guardar los 5 resultados individuales
+        results[name][metric_name] = scores                                                             # Guardar los 5 resultados individuales
 
 # Convertir los resultados a un DataFrame para cada métrica
-acc_df = pd.DataFrame({model: results[model]['Accuracy'] for model in classifiers.keys()}).abs()  # Convertir a valores positivos
-rec_df = pd.DataFrame({model: results[model]['Recall'] for model in classifiers.keys()}).abs()  # Convertir a valores positivos
-pres_df = pd.DataFrame({model: results[model]['Precision'] for model in classifiers.keys()})  # Mantener R² sin cambios
-f1_df = pd.DataFrame({model: results[model]['F1'] for model in classifiers.keys()}).abs()  # Convertir a valores positivos
+acc_df = pd.DataFrame({model: results[model]['Accuracy'] for model in classifiers.keys()}).abs()        # Convertir a valores positivos
+rec_df = pd.DataFrame({model: results[model]['Recall'] for model in classifiers.keys()}).abs()          # Convertir a valores positivos
+pres_df = pd.DataFrame({model: results[model]['Precision'] for model in classifiers.keys()}).abs()      # Convertir a valores positivos
+f1_df = pd.DataFrame({model: results[model]['F1'] for model in classifiers.keys()}).abs()               # Convertir a valores positivos
 
-# Imprimir cada DataFrame por métrica
-
+# Imprimir cada métrica por DataFrame
 # Resultados para Accuracy
 print("DataFrame de Accuracy (10 resultados por modelo):")
 print(acc_df)
@@ -83,8 +84,8 @@ print("DataFrame de F1 (10 resultados por modelo):")
 print(f1_df)
 print("\n")
 
-# 4. Análisis y visualización de métricas individuales ------------------------------------------------------------------------------------------------------------
-# Calcular promedios
+# 4. Análisis y visualización de métricas individuales -----------------------------------------------------------------------------------------------
+# Calcular promedios para cada métrica
 acc_mean = acc_df.mean()
 rec_mean = rec_df.mean()
 pres_mean = pres_df.mean()
@@ -107,18 +108,18 @@ f1_mean.plot(kind='bar', title='F1 score Promedio por Modelo')
 plt.ylabel('F1 score')
 plt.show()
 
-# 5. Análisis de diferencias críticas -------------------------------------------------------------------------------------------------------------
-# Function to calculate and visualize critical differences using scikit-posthocs
+# 5. Análisis de diferencias críticas -----------------------------------------------------------------------------------------------------------------
+# Función para calcular y visualizar diferencias críticas entre modelos usando la librería de scikit-posthocs
 def calcular_diferencias_criticas(df, metric_name):
     try:
-        # Calculate ranks of the models
+        # Calcular los rangos de los modelos
         avg_rank = df.rank(axis=1).mean(axis=0)
         print(avg_rank)
 
-        # Perform the Nemenyi post-hoc test
+        # Realizar una prueba de Nemenyi post-hoc
         cd_result = sp.posthoc_nemenyi_friedman(df.values)
 
-        # Plot the critical difference diagram
+        # Graficar el diagrama de diferencias críticas
         plt.figure(figsize=(10, 6), dpi=100)
         plt.title(f'Diagrama de Diferencias Críticas ({metric_name})')
         sp.critical_difference_diagram(avg_rank, cd_result)
@@ -127,29 +128,29 @@ def calcular_diferencias_criticas(df, metric_name):
     except ValueError as e:
         print(f"Error al calcular diferencias críticas para {metric_name}: {e}")
 
-# Calculate and plot critical differences for each metric
+# Calcular y graficar las diferencias críticas para cada métrica
 calcular_diferencias_criticas(acc_df, 'Accuracy')
 calcular_diferencias_criticas(rec_df, 'Recall')
 calcular_diferencias_criticas(pres_df, 'Precision')
 calcular_diferencias_criticas(f1_df, 'F1 score')
 
-# 6. Comparación bayesiana de todos los clasificadores -------------------------------------------------------------------------------------------------------------
+# 6. Comparación bayesiana de todos los clasificadores ------------------------------------------------------------------------------------------------
 # Función para realizar comparaciones bayesianas entre todos los pares de modelos y generar gráficos
 def comparaciones_bayesianas(df, nombre_metrica):
-    rope = 0.0  # Región de Equivalencia Práctica (ROPE)
+    rope = 0.0                                          # Región de Equivalencia Práctica (ROPE)
     bayes_comparison_results = {}
 
     # Comparar todos los pares únicos de modelos
     for i, modelo_1 in enumerate(df.columns):
         for j, modelo_2 in enumerate(df.columns):
-            if i < j:  # Evitar comparaciones duplicadas y autocomparaciones
+            if i < j:                                   # Evitar comparaciones duplicadas y autocomparaciones
                 # Realizar la comparación bayesiana entre los dos modelos seleccionados usando two_on_single
                 probs, fig = baycomp.two_on_single(
-                    df[modelo_1].values,  # Resultados del primer modelo
-                    df[modelo_2].values,  # Resultados del segundo modelo
+                    df[modelo_1].values,                # Resultados del primer modelo
+                    df[modelo_2].values,                # Resultados del segundo modelo
                     rope=rope,
-                    plot=True,  # Generar el gráfico
-                    names=(modelo_1, modelo_2)  # Nombres para los modelos
+                    plot=True,                          # Generar el gráfico
+                    names=(modelo_1, modelo_2)          # Nombres para los modelos
                 )
                 bayes_comparison_results[(modelo_1, modelo_2)] = probs
                 # Imprimir los resultados

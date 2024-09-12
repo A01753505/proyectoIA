@@ -1,15 +1,15 @@
 # Python libraries
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify   # type: ignore
 import numpy as np
 import joblib # type: ignore
 import random
 from datetime import datetime
 from mongo_db import get_database
 import base64
-from bson.binary import Binary
+from bson.binary import Binary  # type: ignore
 # Files management
 import os
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename  # type: ignore
 
 # Conection to the DB
 db = get_database()
@@ -18,7 +18,7 @@ users = collection.find()
 print(users)
 
 # Load model
-dt = joblib.load('catboost_model.joblib')
+dt = joblib.load('model.joblib')
 
 # Create Flask App
 server = Flask(__name__)
@@ -48,7 +48,7 @@ def clean_data(data):
         ps = True
     else:
         trappist = True
-        
+
     # Sacar la edad con base en el birth date
     print(type(data['birth_date']))
     birth_date = datetime.strptime(data['birth_date'], "%Y-%m-%d")
@@ -66,10 +66,10 @@ def clean_data(data):
         side_s = True
     else:
         side_p = True
-    
+
     map = {chr(i + 65): str(i) for i in range(7)}
     map['H'] = '7'
-    
+
     deck = map[cabin[0]]
 
     data_modifed = {
@@ -100,12 +100,12 @@ def show_all_users():
     try:
         # Recuperar todos los documentos de la colección
         users = collection.find()
-        
+
         # Imprimir los documentos
         user_list = []
         for user in users:
             user['_id'] = str(user['_id'])  # Convertir ObjectId a cadena
-            
+
             # Convertir campos binarios a Base64 (si es necesario)
             if 'photo' in user and isinstance(user['photo'], bytes):
                 user['photo'] = base64.b64encode(user['photo']).decode('utf-8')
@@ -114,7 +114,7 @@ def show_all_users():
 
         if not user_list:
             return jsonify({"message": "No users found."})
-        
+
         return jsonify(user_list)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
@@ -132,23 +132,23 @@ def predictjson():
     data = request.json
     data = clean_data(data)
     print(data)
-    
+
     # Change the data type to a numpy array,and ensure that we use a shape of (1, 18)
     inputData = np.array([
         int(data['CryoSleep']),
         int(data['VIP']),
         int(data['Has_family']),
-        int(data['HomePlanet_Earth']),  
+        int(data['HomePlanet_Earth']),
         int(data['HomePlanet_Europa']),
         int(data['HomePlanet_Mars']),
         int(data['Deck']),
         int(data['Side_P']),
-        int(data['Side_S']),  
+        int(data['Side_S']),
         int(data['Destination_55 Cancri e']),
         int(data['Destination_PS0 J318.5-22']),
         int(data['Destination_TRAPPIST-1e']),
         float(data['Age']),
-        float(data['RoomService']),  
+        float(data['RoomService']),
         float(data['FoodCourt']),
         float(data['ShoppingMall']),
         float(data['Spa']),

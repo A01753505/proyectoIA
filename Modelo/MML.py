@@ -1,3 +1,5 @@
+# ENTRENAMIENTO DE MODELO DE MACHINE LEARNING CON EVALUACIÓN DE RESULTADOS Y EXPORTACIÓN DE MODELO
+
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score #type: ignore
 from catboost import CatBoostClassifier  #type: ignore
 import joblib   #type: ignore
@@ -10,13 +12,14 @@ df = pd.read_csv("Modelo/train.csv")
 X = pd.read_csv("DF.csv")
 y = df["Transported"]
 
+# Entrenar modelo
 cat = CatBoostClassifier(iterations=1250, learning_rate=0.03, depth=6, l2_leaf_reg=9, verbose=0)
 cat.fit(X, y)
 
 # Realizar predicciones
 predictions = cat.predict(X)
 
-# Evaluar precisión
+# Evaluar modelo (accuracy)
 accuracy = accuracy_score(y, predictions)
 precision = precision_score(y, predictions)
 recall = recall_score(y, predictions)
@@ -31,6 +34,7 @@ print(f'F1: {f1 * 100:.2f}%')
 # joblib.dump(cat,'Model.joblib')
 
 # ------------------------------------------------- DATAFRAME DE TEST -------------------------------------------------
+# Código para realizar predicciones con el DataFrame de pruebas
 
 # Leer datos
 # X = pd.read_csv("DF_test.csv")
