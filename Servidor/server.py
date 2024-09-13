@@ -19,7 +19,7 @@ users = collection.find()
 print(users)
 
 # Load model
-dt = joblib.load('catboost_model.joblib')
+dt = joblib.load('model.joblib')
 
 # Create Flask App
 server = Flask(__name__)

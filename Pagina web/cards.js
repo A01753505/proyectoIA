@@ -10,8 +10,11 @@ const cancelarBtn = document.getElementById('cancelar');
 const subirBtn = document.getElementById('subir');
 let currentCardIndex = 0;
 
+cont = 0;
 leftBtn.addEventListener('click', () => {
     swipeCard('left');
+    renderUsers(globalUsers[cont]);
+    cont += 1;
 });
 
 rightBtn.addEventListener('click', () => {
@@ -55,6 +58,8 @@ function swipeCard(direction) {
     // Agregar animación de swipe
     currentCard.classList.add(swipeClass);
     currentCard.querySelector(`.${direction}-feedback`).classList.add(feedbackClass);
+    currentCard.classList.remove('active');
+
 
     // Esperar que la animación termine antes de pasar a la siguiente tarjeta
     setTimeout(() => {
@@ -173,7 +178,7 @@ function modelo(){
 let globalUsers = [];
 function getUsers() {
     var xhr = new XMLHttpRequest();
-    var url = 'http://172.24.65.198:8080/users';
+    var url = 'http://127.0.0.1:8080/users';
 
     xhr.open('GET', url, true);
 
@@ -191,6 +196,27 @@ function getUsers() {
     };
 
     xhr.send();
+}
+
+function renderUsers(user) {
+    const container = document.getElementById("cardId");
+    container.innerHTML = '';
+
+    if (user.lenght === 0) {
+        container.innerHTML = "<p>No users found.</p>";
+        return;
+    }
+
+    // users.forEach(user => {
+        const card = document.createElement("div");
+        card.classList.add("card-description");
+        card.innerHTML = `
+            <img src="data:image/jpeg;base64,${user.photo}" alt="${user.nombre}" style="width:100px; height:100px;">
+            <h2>${user.nombre}, ${user.edad}</h2>
+            <p>${user.descripción}</p>
+        `;
+        container.appendChild(card);
+    // });
 }
 
 getUsers();

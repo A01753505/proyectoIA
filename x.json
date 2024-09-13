@@ -1,0 +1,142 @@
+[
+  {
+    "photo": "url1",
+    "nombre": "Ana López",
+    "descripción": "Amo la fotografía",
+    "edad": 30,
+    "match": true
+  },
+  {
+    "photo": "url2",
+    "nombre": "Carlos Pérez",
+    "descripción": "Fanático del fútbol",
+    "edad": 28,
+    "match": false
+  },
+  {
+    "photo": "url3",
+    "nombre": "María García",
+    "descripción": "Me encanta viajar",
+    "edad": 32,
+    "match": true
+  },
+  {
+    "photo": "url4",
+    "nombre": "José Martínez",
+    "descripción": "Amante del cine",
+    "edad": 27,
+    "match": true
+  },
+  {
+    "photo": "https://www.mundodeportivo.com/uncomo/artes/articulo/como-hacer-fotos-de-alta-resolucion-en-300-dpi-1427.html ",
+    "nombre": "Laura Sánchez",
+    "descripción": "Coleccionista de vinilos",
+    "edad": 24,
+    "match": false
+  },
+  {
+    "photo": "url6",
+    "nombre": "Javier Rodríguez",
+    "descripción": "Apasionado de la cocina",
+    "edad": 35,
+    "match": true
+  },
+  {
+    "photo": "url7",
+    "nombre": "Claudia Morales",
+    "descripción": "Me gusta leer novelas históricas",
+    "edad": 29,
+    "match": false
+  },
+  {
+    "photo": "url8",
+    "nombre": "Luis Fernández",
+    "descripción": "Amante de los deportes extremos",
+    "edad": 26,
+    "match": true
+  },
+  {
+    "photo": "url9",
+    "nombre": "Sofía Ramírez",
+    "descripción": "Me gusta pintar",
+    "edad": 31,
+    "match": true
+  },
+  {
+    "photo": "url10",
+    "nombre": "Miguel Gómez",
+    "descripción": "Cineasta amateur",
+    "edad": 33,
+    "match": false
+  },
+  {
+    "photo": "url11",
+    "nombre": "Valeria Torres",
+    "descripción": "Experta en yoga",
+    "edad": 27,
+    "match": true
+  },
+  {
+    "photo": "url12",
+    "nombre": "Antonio Romero",
+    "descripción": "Aficionado a los videojuegos",
+    "edad": 22,
+    "match": false
+  },
+  {
+    "photo": "url13",
+    "nombre": "Gabriela Silva",
+    "descripción": "Amante de los animales",
+    "edad": 30,
+    "match": true
+  },
+  {
+    "photo": "url14",
+    "nombre": "Pedro Castillo",
+    "descripción": "Fascinado por la astronomía",
+    "edad": 29,
+    "match": false
+  },
+  {
+    "photo": "url15",
+    "nombre": "Lucía Vargas",
+    "descripción": "Adicta al café",
+    "edad": 34,
+    "match": true
+  },
+  {
+    "photo": "url16",
+    "nombre": "Ricardo García",
+    "descripción": "Coleccionista de figuras de acción",
+    "edad": 26,
+    "match": false
+  },
+  {
+    "photo": "url17",
+    "nombre": "Nadia Castro",
+    "descripción": "Me encanta el senderismo",
+    "edad": 28,
+    "match": true
+  },
+  {
+    "photo": "url18",
+    "nombre": "Eduardo Salazar",
+    "descripción": "Creador de música",
+    "edad": 31,
+    "match": true
+  },
+  {
+    "photo": "url19",
+    "nombre": "Isabel Cordero",
+    "descripción": "Apasionada por el diseño gráfico",
+    "edad": 27,
+    "match": false
+  },
+  {
+    "photo": "url20",
+    "nombre": "Andrés Jiménez",
+    "descripción": "Me encanta el surf",
+    "edad": 33,
+    "match": true
+  }
+]

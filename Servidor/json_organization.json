@@ -29,4 +29,13 @@
     "destination": "TRAPPIST-1e",
     "birth_date": "2002-02-02",
     "name": "Julián Cisneros"
+},
+{
+    "Función": "JSON que se usa para las tarjetas de la aplicación",
+
+    "photo": "url",
+    "nombre": "Alan Alcántara",
+    "descripción": "Me gustan las ardillas",
+    "edad": 25,
+    "match": true
 }]
