@@ -13,19 +13,18 @@ let currentCardIndex = 0;
 cont = 0;
 leftBtn.addEventListener('click', () => {
     swipeCard('left');
-    renderUsers(globalUsers[cont]);
-    cont += 1;
+    setTimeout(() => {
+        renderUsers(globalUsers[cont]);
+        cont += 1;
+    }, 1000);
 });
 
 rightBtn.addEventListener('click', () => {
     swipeCard('right');
-    match();
-    soulmateContainer.classList.add('hide');
-    predContainer.classList.remove('hide');
-    var elemento1 = document.getElementById("left-btn");
-    var elemento2 = document.getElementById("right-btn");
-    elemento1.style.display = "none";
-    elemento2.style.display = "none";
+    setTimeout(() => {
+        match(globalUsers[cont-1]);
+        cont += 1;
+    }, 1000);
 });
 
 cancelarBtn.addEventListener('click', () => {
@@ -56,10 +55,11 @@ function swipeCard(direction) {
     const swipeClass = direction === 'left' ? 'swipe-left' : 'swipe-right';
 
     // Agregar animación de swipe
-    currentCard.classList.add(swipeClass);
     currentCard.querySelector(`.${direction}-feedback`).classList.add(feedbackClass);
-    currentCard.classList.remove('active');
-
+    setTimeout(()=> {
+        currentCard.classList.add(swipeClass);
+        currentCard.classList.remove('active');
+    }, 500);
 
     // Esperar que la animación termine antes de pasar a la siguiente tarjeta
     setTimeout(() => {
@@ -72,10 +72,10 @@ function swipeCard(direction) {
         // Mostrar la siguiente tarjeta
         currentCardIndex = (currentCardIndex + 1) % cards.length;
         cards[currentCardIndex].classList.add('active');
-    }, 500);
+    }, 1000);
 }
 
-function match(pred){
+function viaje(pred){
 
     if (pred) {
         console.log('match');
@@ -160,7 +160,7 @@ function modelo(){
             console.log('Éxito:', response);
 
             const prediction = response.Prediction === "True";
-            match(prediction);
+            viaje(prediction);
 
         } else {
             console.error('Error:', xhr.statusText);
@@ -196,6 +196,20 @@ function getUsers() {
     };
 
     xhr.send();
+}
+
+function match(usuario){
+    console.log(usuario);
+    if(usuario.match){
+        soulmateContainer.classList.add('hide');
+        predContainer.classList.remove('hide');
+        var elemento1 = document.getElementById("left-btn");
+        var elemento2 = document.getElementById("right-btn");
+        elemento1.style.display = "none";
+        elemento2.style.display = "none";
+    } else{
+        renderUsers(globalUsers[cont]);
+    }
 }
 
 function renderUsers(user) {
