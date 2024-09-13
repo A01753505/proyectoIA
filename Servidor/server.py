@@ -182,17 +182,32 @@ def predictjson():
 # Recuperar fotos
 @server.route('/imagenes', methods=['GET'])
 def obtener_imagenes():
-    imagenes = []
 
-    for file in fs.find():
-        file_data = fs.get(file._id).read()
-        imagen_binaria = BytesIO(file_data)
-        imagen_binaria.seek(0)
+    try:
+        imagenes = []
+        for file in fs.find():
+            # Convertir los datos binarios de la imagen a base64
+            image_data = file.read()
+            encoded_image = base64.b64encode(image_data).decode('utf-8')
+            imagenes.append({
+                'filename': file.filename,
+                'data': encoded_image
+            })
+        return jsonify(imagenes)
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': 'No se pudieron recuperar las imágenes'}), 500
+    # imagenes = []
 
-        imagenes.append({
-            'nombre': file.filename,
-            'contenido': imagen_binaria.getvalue()
-        })
+    # for file in fs.find():
+    #     file_data = fs.get(file._id).read()
+    #     imagen_binaria = BytesIO(file_data)
+    #     imagen_binaria.seek(0)
+
+    #     imagenes.append({
+    #         'nombre': file.filename,
+    #         'contenido': imagen_binaria.getvalue()
+        # })
 
     return jsonify(imagenes)
 

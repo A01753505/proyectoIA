@@ -23,7 +23,7 @@ leftBtn.addEventListener('click', () => {
 rightBtn.addEventListener('click', () => {
     swipeCard('right');
     setTimeout(() => {
-        match(globalUsers[cont-1]);
+        matchea(globalUsers[cont-1]);
         cont += 1;
     }, 1000);
 });
@@ -76,7 +76,7 @@ function swipeCard(direction) {
     }, 1000);
 }
 
-function viaje(pred){
+function match(pred){
 
     if (pred) {
         console.log('match');
@@ -124,7 +124,7 @@ document.querySelectorAll('.seat').forEach(button => {
 // Función que manda a llamar al modelo para hacer la predicción
 function modelo(){
     var xhr = new XMLHttpRequest();
-    var url = 'http://172.24.65.198:8080/predictjson';
+    var url = 'http://127.0.0.1:8080/predictjson';
     const form = document.querySelector('.information_form');
     const formData = new FormData(form);
 
@@ -161,7 +161,7 @@ function modelo(){
             console.log('Éxito:', response);
 
             const prediction = response.Prediction === "True";
-            viaje(prediction);
+            match(prediction);
 
         } else {
             console.error('Error:', xhr.statusText);
@@ -199,7 +199,7 @@ function getUsers() {
     xhr.send();
 }
 
-function match(usuario){
+function matchea(usuario){
     console.log(usuario);
     if(usuario.match){
         soulmateContainer.classList.add('hide');
@@ -225,7 +225,6 @@ function renderUsers(user) {
         const card = document.createElement("div");
         card.classList.add("card-description");
         card.innerHTML = `
-            <img src="data:image/jpeg;base64,${user.photo}" alt="${user.nombre}" style="width:100px; height:100px;">
             <h2>${user.nombre}, ${user.edad}</h2>
             <p>${user.descripción}</p>
         `;
@@ -259,11 +258,13 @@ function getImagenes(){
 
 function mostrarImagen(cont) {
     var imgElement = document.getElementById('imagenPersona');
-    if (imgElement) {
-        imgElement.src = 'http://127.0.0.1:8080/imagenes'+globalImages[cont].toString();
-        imgElement.alt = 'Imagen persona';  // Opcional: puedes establecer un texto alternativo
+    if (imgElement && globalImages[cont]) {
+        // Construye la URL de datos a partir de los datos base64
+        let imageData = globalImages[cont].data;
+        imgElement.src = 'data:image/jpg;base64,' + imageData;
+        imgElement.alt = 'Imagen persona';
     } else {
-        console.error('Elemento con id "imagenPersona" no encontrado');
+        console.error('Elemento con id "imagenPersona" no encontrado o índice de imagen inválido');
     }
 }
 

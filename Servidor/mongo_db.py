@@ -9,7 +9,10 @@ def get_database():
     # Crear o conectar a la BD
     db = client['SpaceSoulmates']
 
-    directorio_fotos = '../Fotos'
+    directorio_fotos = './Fotos'
+    if not os.path.exists(directorio_fotos):
+        raise FileNotFoundError(f"El directorio {directorio_fotos} no existe")
+
 
     fs = gridfs.GridFS(db)
     for nombre_archivo in os.listdir(directorio_fotos):

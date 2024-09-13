@@ -1,41 +1,35 @@
 [
   {
-    "photo": "url1",
     "nombre": "Ana López",
     "descripción": "Amo la fotografía",
     "edad": 30,
     "match": true
   },
   {
-    "photo": "url2",
     "nombre": "Carlos Pérez",
     "descripción": "Fanático del fútbol",
     "edad": 28,
     "match": false
   },
   {
-    "photo": "url3",
     "nombre": "María García",
     "descripción": "Me encanta viajar",
     "edad": 32,
     "match": true
   },
   {
-    "photo": "url4",
     "nombre": "José Martínez",
     "descripción": "Amante del cine",
     "edad": 27,
     "match": true
   },
   {
-    "photo": "https://www.mundodeportivo.com/uncomo/artes/articulo/como-hacer-fotos-de-alta-resolucion-en-300-dpi-1427.html ",
     "nombre": "Laura Sánchez",
     "descripción": "Coleccionista de vinilos",
     "edad": 24,
     "match": false
   },
   {
-    "photo": "url6",
     "nombre": "Javier Rodríguez",
     "descripción": "Apasionado de la cocina",
     "edad": 35,
