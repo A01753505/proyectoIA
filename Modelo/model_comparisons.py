@@ -17,7 +17,7 @@ from tqdm import tqdm   #type: ignore
 
 # 2. Cargar el dataset y preparar datos -------------------------------------------------------------------------------------------------------------
 df = pd.read_csv("Modelo/train.csv")
-X = pd.read_csv("newDF.csv")
+X = pd.read_csv("DF.csv")
 # Separar en conjuntos de train y validation
 x_train, x_test, y_train, y_test = train_test_split(
     df.drop(columns = ["Name", "Transported"]),         # Eliminamos columnas de "target" y Nombre (no significativa)
