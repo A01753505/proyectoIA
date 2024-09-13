@@ -15,6 +15,7 @@ leftBtn.addEventListener('click', () => {
     swipeCard('left');
     setTimeout(() => {
         renderUsers(globalUsers[cont]);
+        mostrarImagen(cont);
         cont += 1;
     }, 1000);
 });
@@ -221,7 +222,6 @@ function renderUsers(user) {
         return;
     }
 
-    // users.forEach(user => {
         const card = document.createElement("div");
         card.classList.add("card-description");
         card.innerHTML = `
@@ -230,7 +230,42 @@ function renderUsers(user) {
             <p>${user.descripción}</p>
         `;
         container.appendChild(card);
-    // });
 }
 
+// Recuperar todas las fotos de la bd
+let globalImages = [];
+
+function getImagenes(){
+    var xhr = new XMLHttpRequest();
+    var url = 'http://127.0.0.1:8080/imagenes';
+
+    xhr.open('GET', url, true);
+
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            globalImages = JSON.parse(xhr.responseText);
+            console.log('Imagenes:', globalUsers);
+        } else {
+            console.error('Error:', xhr.statusText);
+        }
+    };
+
+    xhr.onerror = function() {
+        console.error('Error en la petición');
+    };
+
+    xhr.send();
+}
+
+function mostrarImagen(cont) {
+    var imgElement = document.getElementById('imagenPersona');
+    if (imgElement) {
+        imgElement.src = 'http://127.0.0.1:8080/imagenes'+globalImages[cont].toString();
+        imgElement.alt = 'Imagen persona';  // Opcional: puedes establecer un texto alternativo
+    } else {
+        console.error('Elemento con id "imagenPersona" no encontrado');
+    }
+}
+
+getImagenes();
 getUsers();

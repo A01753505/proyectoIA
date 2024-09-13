@@ -11,12 +11,15 @@ from bson.binary import Binary  # type: ignore
 import os
 from werkzeug.utils import secure_filename  # type: ignore
 from flask_cors import CORS # type: ignore
+import gridfs
+from io import BytesIO
 
 # Conection to the DB
 db = get_database()
 collection = db['passengers']
 users = collection.find()
 print(users)
+fs = gridfs.GridFS(db)
 
 # Load model
 dt = joblib.load('model.joblib')
@@ -175,6 +178,23 @@ def predictjson():
     result = dt.predict(inputData)
     # Return response
     return jsonify({'Prediction': str(result[0])})
+
+# Recuperar fotos
+@server.route('/imagenes', methods=['GET'])
+def obtener_imagenes():
+    imagenes = []
+
+    for file in fs.find():
+        file_data = fs.get(file._id).read()
+        imagen_binaria = BytesIO(file_data)
+        imagen_binaria.seek(0)
+
+        imagenes.append({
+            'nombre': file.filename,
+            'contenido': imagen_binaria.getvalue()
+        })
+
+    return jsonify(imagenes)
 
 if __name__ == '__main__':
     server.run(debug=False, host='0.0.0.0', port=8080)
