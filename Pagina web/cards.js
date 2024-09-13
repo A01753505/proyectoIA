@@ -70,21 +70,28 @@ function swipeCard(direction) {
     }, 500);
 }
 
-function match(){
-    const randomNumber = Math.floor(Math.random() * 2) + 1;
+function match(pred){
 
-    if (randomNumber === 1) {
+    if (pred) {
         console.log('match');
         var elemento1 = document.getElementById("abordoB");
         var elemento2 = document.getElementById("emojiB");
         var elemento3 = document.getElementById("mensajeB");
         var elemento4 = document.getElementById("btnBuscarAlmas");
         var elemento5 = document.getElementById("btnViaje");
+        var elemento6 = document.getElementById("abordoM");
+        var elemento7 = document.getElementById("emojiM");
+        var elemento8 = document.getElementById("mensajeM");
+        var elemento9 = document.getElementById("btnBuscarAlmas");
         elemento1.style.display = "block";
         elemento2.style.display = "block";
         elemento3.style.display = "block";
         elemento4.style.display = "block";
         elemento5.style.display = "block";
+        elemento6.style.display = "none";
+        elemento7.style.display = "none";
+        elemento8.style.display = "none";
+        elemento9.style.display = "none";
     } else {
         console.log('no match');
         var elemento1 = document.getElementById("abordoM");
@@ -97,3 +104,93 @@ function match(){
         elemento4.style.display = "block";
     }
 }
+
+// Guardarc el asiento seleccionado
+let selectedSeat = null;
+
+document.querySelectorAll('.seat').forEach(button => {
+    button.addEventListener('click', function() {
+        selectedSeat = this.getAttribute('data-seat');
+        console.log('Asiento seleccionado:', selectedSeat);
+    });
+});
+
+// Función que manda a llamar al modelo para hacer la predicción
+function modelo(){
+    var xhr = new XMLHttpRequest();
+    var url = 'http://172.24.65.198:8080/predictjson';
+    const form = document.querySelector('.information_form');
+    const formData = new FormData(form);
+
+    const dataArray = Array.from(formData.entries());
+
+    // Obtenemos datos del formulario
+    function getValue(key) {
+        const entry = dataArray.find(([field]) => field === key);
+        return entry ? entry[1] : null;
+    }
+
+    const hasFamily = getValue('yesNoOption') === 'yes';
+
+    // json que se manda
+    var data = JSON.stringify({
+        "home_planet": getValue('userOrigin'),
+        "destination": getValue('userDestiny'),
+        "birth_date": getValue('userbirthday'),
+        "name": getValue('userName'),
+        "has_family": hasFamily,
+        "photo": "/9j/4AAQSkZJRgABAQEAAAAAAAD/4QAYRXhpZgAATU0AKgAAAAgAAwESAAMAAAABAAEAAAEaAAUAAAABAAAAYgEbAAUAAAABAAAAagEoAAMAAAABAAIAAAExAAIAAAAeAAAAcgEyAAIAAAAUAAAAkIdpAAQAAAABAAAApAAAAABHZX",
+        "real_data": true,
+        "cabin": selectedSeat
+    });
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            var response = JSON.parse(xhr.responseText);
+            console.log('Éxito:', response);
+            var response = JSON.parse(xhr.responseText);
+            console.log('Éxito:', response);
+
+            const prediction = response.Prediction === "True";
+            match(prediction);
+
+        } else {
+            console.error('Error:', xhr.statusText);
+        }
+    };
+
+    xhr.onerror = function() {
+        console.error('Error en la petición');
+    };
+
+    xhr.send(data);
+}
+
+// Función para obtener la lista para las cartas de la bd
+let globalUsers = [];
+function getUsers() {
+    var xhr = new XMLHttpRequest();
+    var url = 'http://172.24.65.198:8080/users';
+
+    xhr.open('GET', url, true);
+
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            globalUsers = JSON.parse(xhr.responseText);
+            console.log('Usuarios:', globalUsers);
+        } else {
+            console.error('Error:', xhr.statusText);
+        }
+    };
+
+    xhr.onerror = function() {
+        console.error('Error en la petición');
+    };
+
+    xhr.send();
+}
+
+getUsers();

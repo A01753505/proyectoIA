@@ -1,5 +1,5 @@
 # Python libraries
-from flask import Flask, request, jsonify   # type: ignore
+from flask import Flask, request, jsonify, send_from_directory  # type: ignore
 import numpy as np
 import joblib # type: ignore
 import random
@@ -10,6 +10,7 @@ from bson.binary import Binary  # type: ignore
 # Files management
 import os
 from werkzeug.utils import secure_filename  # type: ignore
+from flask_cors import CORS # type: ignore
 
 # Conection to the DB
 db = get_database()
@@ -18,10 +19,16 @@ users = collection.find()
 print(users)
 
 # Load model
-dt = joblib.load('model.joblib')
+dt = joblib.load('catboost_model.joblib')
 
 # Create Flask App
 server = Flask(__name__)
+CORS(server)
+
+@server.route('/')
+def index():
+    return send_from_directory('../Pagina web', 'index.html')
+
 
 # Function to clean the data, and generate random data to give to the model
 def clean_data(data):
@@ -68,9 +75,16 @@ def clean_data(data):
         side_p = True
 
     map = {chr(i + 65): str(i) for i in range(7)}
-    map['H'] = '7'
+    map['T'] = '7'
 
     deck = map[cabin[0]]
+
+    valores = []
+    for i in range(5):
+        if np.random.rand() < 0.7:
+            valores.append(0)
+        else:
+            valores.append(np.random.randint(1, 10001))
 
     data_modifed = {
         "CryoSleep": bool(np.random.choice([True, False])),
@@ -86,11 +100,11 @@ def clean_data(data):
         "Destination_PS0 J318.5-22": ps,
         "Destination_TRAPPIST-1e": trappist,
         "Age": age,
-        "RoomService": random.uniform(1, 1000),
-        "FoodCourt": random.uniform(1, 1000),
-        "ShoppingMall": random.uniform(1, 1000),
-        "Spa": random.uniform(1, 1000),
-        "VRDeck": random.uniform(1, 1000)
+        "RoomService": valores[0],
+        "FoodCourt": valores[1],
+        "ShoppingMall": valores[2],
+        "Spa": valores[3],
+        "VRDeck": valores[4]
     }
 
     return data_modifed

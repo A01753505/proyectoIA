@@ -174,7 +174,7 @@ body {
     border-bottom-left-radius: 20px;
     padding: 40 30px;
   }
-  
+
 .information_pred h2 {
     font-size: 2.5rem;
     color: #ffffff;
@@ -189,7 +189,7 @@ body {
 .icons {
     margin: 15px 0;
   }
-  
+
   .icons i {
     border-radius: 50%;
     padding: 15px;
@@ -200,16 +200,16 @@ body {
     transition: background-color 0.3s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
   }
-  
+
   .icons i:hover {
     background-color: #c7c7f3;
     color: #fff;
   }
-  
+
   .form {
     margin: 30px 0 0 0;
   }
-  
+
   .form label {
     display: flex;
     align-items: center;
@@ -219,7 +219,7 @@ body {
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
   }
-  
+
   .form label input {
     width: 100%;
     padding: 10px;
@@ -229,11 +229,11 @@ body {
     border-radius: 20px;
     color: #333;
   }
-  
+
   .form label i {
     color: #a7a7a7;
   }
-  
+
   .form input[type="submit"] {
     background-color: #9191bd;
     color: #fff;
@@ -244,12 +244,12 @@ body {
     margin-top: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
   }
-  
+
   .form input[type="submit"]:hover {
     background-color: #7a7a9a;
   }
 
-  
+
 .form label select {
     width: 100%;
     padding: 10px;
@@ -320,66 +320,66 @@ body {
     background-color: #0056b3; /* Color de fondo de los asientos al pasar el cursor */
 }
 
-.seat[data-seat="A1"] { top: 7%; left: 8%; }
-.seat[data-seat="A2"] { top: 20%; left: 8%; }
-.seat[data-seat="B1"] { top: 7%; left: 16%; }
-.seat[data-seat="B2"] { top: 20%; left: 16%; }
-.seat[data-seat="C1"] { top: 7%; left: 20%; }
-.seat[data-seat="C2"] { top: 20%; left: 20%; }
-.seat[data-seat="D1"] { top: 7%; left: 28%; }
-.seat[data-seat="D2"] { top: 20%; left: 28%; }
-.seat[data-seat="E1"] { top: 7%; left: 32%; }
-.seat[data-seat="E2"] { top: 20%; left: 32%; }
-.seat[data-seat="F1"] { top: 7%; left: 40%; }
-.seat[data-seat="F2"] { top: 20%; left: 40%; }
-.seat[data-seat="G1"] { top: 7%; left: 44%; }
-.seat[data-seat="G2"] { top: 20%; left: 44%; }
-.seat[data-seat="H1"] { top: 7%; left: 52%; }
-.seat[data-seat="H2"] { top: 20%; left: 52%; }
-.seat[data-seat="I1"] { top: 7%; left: 56%; }
-.seat[data-seat="I2"] { top: 20%; left: 56%; }
-.seat[data-seat="J1"] { top: 7%; left: 64%; }
-.seat[data-seat="J2"] { top: 20%; left: 64%; }
-.seat[data-seat="K1"] { top: 7%; left: 68%; }
-.seat[data-seat="K2"] { top: 20%; left: 68%; }
-.seat[data-seat="L1"] { top: 7%; left: 76%; }
-.seat[data-seat="L2"] { top: 20%; left: 76%; }
-.seat[data-seat="M1"] { top: 7%; left: 80%; }
-.seat[data-seat="M2"] { top: 20%; left: 80%; }
-.seat[data-seat="N1"] { top: 7%; left: 88%; }
-.seat[data-seat="N2"] { top: 20%; left: 88%; }
-.seat[data-seat="O1"] { top: 7%; left: 92%; }
-.seat[data-seat="O2"] { top: 20%; left: 92%; }
-.seat[data-seat="A12"] { top: 70%; left: 8%; }
-.seat[data-seat="A22"] { top: 83%; left: 8%; }
-.seat[data-seat="B12"] { top: 70%; left: 16%; }
-.seat[data-seat="B22"] { top: 83%; left: 16%; }
-.seat[data-seat="C12"] { top: 70%; left: 20%; }
-.seat[data-seat="C22"] { top: 83%; left: 20%; }
-.seat[data-seat="D12"] { top: 70%; left: 28%; }
-.seat[data-seat="D22"] { top: 83%; left: 28%; }
-.seat[data-seat="E12"] { top: 70%; left: 32%; }
-.seat[data-seat="E22"] { top: 83%; left: 32%; }
-.seat[data-seat="F12"] { top: 70%; left: 40%; }
-.seat[data-seat="F22"] { top: 83%; left: 40%; }
-.seat[data-seat="G12"] { top: 70%; left: 44%; }
-.seat[data-seat="G22"] { top: 83%; left: 44%; }
-.seat[data-seat="H12"] { top: 70%; left: 52%; }
-.seat[data-seat="H22"] { top: 83%; left: 52%; }
-.seat[data-seat="I12"] { top: 70%; left: 56%; }
-.seat[data-seat="I22"] { top: 83%; left: 56%; }
-.seat[data-seat="J12"] { top: 70%; left: 64%; }
-.seat[data-seat="J22"] { top: 83%; left: 64%; }
-.seat[data-seat="K12"] { top: 70%; left: 68%; }
-.seat[data-seat="K22"] { top: 83%; left: 68%; }
-.seat[data-seat="L12"] { top: 70%; left: 76%; }
-.seat[data-seat="L22"] { top: 83%; left: 76%; }
-.seat[data-seat="M12"] { top: 70%; left: 80%; }
-.seat[data-seat="M22"] { top: 83%; left: 80%; }
-.seat[data-seat="N12"] { top: 70%; left: 88%; }
-.seat[data-seat="N22"] { top: 83%; left: 88%; }
-.seat[data-seat="O12"] { top: 70%; left: 92%; }
-.seat[data-seat="O22"] { top: 83%; left: 92%; }
+.seat[data-seat="T1S"] { top: 7%; left: 8%; }
+.seat[data-seat="T2S"] { top: 20%; left: 8%; }
+.seat[data-seat="GS1"] { top: 7%; left: 16%; }
+.seat[data-seat="G2S"] { top: 20%; left: 16%; }
+.seat[data-seat="G3S"] { top: 7%; left: 20%; }
+.seat[data-seat="G4S"] { top: 20%; left: 20%; }
+.seat[data-seat="F1S"] { top: 7%; left: 28%; }
+.seat[data-seat="F2S"] { top: 20%; left: 28%; }
+.seat[data-seat="F3S"] { top: 7%; left: 32%; }
+.seat[data-seat="F4S"] { top: 20%; left: 32%; }
+.seat[data-seat="E1S"] { top: 7%; left: 40%; }
+.seat[data-seat="E2S"] { top: 20%; left: 40%; }
+.seat[data-seat="E3S"] { top: 7%; left: 44%; }
+.seat[data-seat="E4S"] { top: 20%; left: 44%; }
+.seat[data-seat="D1S"] { top: 7%; left: 52%; }
+.seat[data-seat="D2S"] { top: 20%; left: 52%; }
+.seat[data-seat="D3S"] { top: 7%; left: 56%; }
+.seat[data-seat="D4S"] { top: 20%; left: 56%; }
+.seat[data-seat="C1S"] { top: 7%; left: 64%; }
+.seat[data-seat="C2S"] { top: 20%; left: 64%; }
+.seat[data-seat="C3S"] { top: 7%; left: 68%; }
+.seat[data-seat="C4S"] { top: 20%; left: 68%; }
+.seat[data-seat="B1S"] { top: 7%; left: 76%; }
+.seat[data-seat="B2S"] { top: 20%; left: 76%; }
+.seat[data-seat="B3S"] { top: 7%; left: 80%; }
+.seat[data-seat="B4S"] { top: 20%; left: 80%; }
+.seat[data-seat="A1S"] { top: 7%; left: 88%; }
+.seat[data-seat="A2S"] { top: 20%; left: 88%; }
+.seat[data-seat="A3S"] { top: 7%; left: 92%; }
+.seat[data-seat="A4S"] { top: 20%; left: 92%; }
+.seat[data-seat="T1P"] { top: 70%; left: 8%; }
+.seat[data-seat="T2P"] { top: 83%; left: 8%; }
+.seat[data-seat="G1P"] { top: 70%; left: 16%; }
+.seat[data-seat="G2P"] { top: 83%; left: 16%; }
+.seat[data-seat="G3P"] { top: 70%; left: 20%; }
+.seat[data-seat="G4P"] { top: 83%; left: 20%; }
+.seat[data-seat="F1P"] { top: 70%; left: 28%; }
+.seat[data-seat="F2P"] { top: 83%; left: 28%; }
+.seat[data-seat="F3P"] { top: 70%; left: 32%; }
+.seat[data-seat="F4P"] { top: 83%; left: 32%; }
+.seat[data-seat="E1P"] { top: 70%; left: 40%; }
+.seat[data-seat="E2P"] { top: 83%; left: 40%; }
+.seat[data-seat="E3P"] { top: 70%; left: 44%; }
+.seat[data-seat="E4P"] { top: 83%; left: 44%; }
+.seat[data-seat="D1P"] { top: 70%; left: 52%; }
+.seat[data-seat="D2P"] { top: 83%; left: 52%; }
+.seat[data-seat="D3P"] { top: 70%; left: 56%; }
+.seat[data-seat="D4P"] { top: 83%; left: 56%; }
+.seat[data-seat="C1P"] { top: 70%; left: 64%; }
+.seat[data-seat="C2P"] { top: 83%; left: 64%; }
+.seat[data-seat="C3P"] { top: 70%; left: 68%; }
+.seat[data-seat="C4P"] { top: 83%; left: 68%; }
+.seat[data-seat="B1P"] { top: 70%; left: 76%; }
+.seat[data-seat="B2P"] { top: 83%; left: 76%; }
+.seat[data-seat="B3P"] { top: 70%; left: 80%; }
+.seat[data-seat="B4P"] { top: 83%; left: 80%; }
+.seat[data-seat="A1P"] { top: 70%; left: 88%; }
+.seat[data-seat="A2P"] { top: 83%; left: 88%; }
+.seat[data-seat="A3P"] { top: 70%; left: 92%; }
+.seat[data-seat="A4P"] { top: 83%; left: 92%; }
 
 .section {
     border: 2px solid #888;
